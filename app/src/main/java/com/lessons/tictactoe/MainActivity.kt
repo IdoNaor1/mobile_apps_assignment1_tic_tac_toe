@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
                 board[index] = currentPlayer
 
                 currentPlayer = if (currentPlayer == "X") "O" else "X"
-                statusText.text = "Player $currentPlayer's turn"
+                statusText.text = getString(R.string.player_s_turn, currentPlayer)
             }
         }
 

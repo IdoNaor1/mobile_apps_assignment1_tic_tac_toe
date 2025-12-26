@@ -53,6 +53,13 @@ class MainActivity : AppCompatActivity() {
                     return@setOnClickListener
                 }
 
+                if (checkDraw()) {
+                    gameActive = false
+                    statusText.text = getString(R.string.draw)
+                    playAgainButton.visibility = View.VISIBLE
+                    return@setOnClickListener
+                }
+
                 currentPlayer = if (currentPlayer == "X") "O" else "X"
                 statusText.text = getString(R.string.player_s_turn, currentPlayer)
             }
@@ -93,6 +100,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         return false
+    }
+
+    private fun checkDraw(): Boolean {
+        for (cell in board) {
+            if (cell.isEmpty()) {
+                return false
+            }
+        }
+        return true
     }
 
 }

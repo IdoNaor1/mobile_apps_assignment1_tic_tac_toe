@@ -46,6 +46,13 @@ class MainActivity : AppCompatActivity() {
                 val index = button.tag.toString().toInt()
                 board[index] = currentPlayer
 
+                if (checkWin()) {
+                    gameActive = false
+                    statusText.text = getString(R.string.player_wins, currentPlayer)
+                    playAgainButton.visibility = View.VISIBLE
+                    return@setOnClickListener
+                }
+
                 currentPlayer = if (currentPlayer == "X") "O" else "X"
                 statusText.text = getString(R.string.player_s_turn, currentPlayer)
             }
@@ -57,4 +64,35 @@ class MainActivity : AppCompatActivity() {
             insets
         }
     }
+
+    private fun checkWin(): Boolean {
+        val winPositions = arrayOf(
+            intArrayOf(0, 1, 2),
+            intArrayOf(3, 4, 5),
+            intArrayOf(6, 7, 8),
+
+            intArrayOf(0, 3, 6),
+            intArrayOf(1, 4, 7),
+            intArrayOf(2, 5, 8),
+
+            intArrayOf(0, 4, 8),
+            intArrayOf(2, 4, 6)
+        )
+
+        for (pos in winPositions) {
+            val a = pos[0]
+            val b = pos[1]
+            val c = pos[2]
+
+            if (board[a].isNotEmpty() &&
+                board[a] == board[b] &&
+                board[b] == board[c]
+            ) {
+                return true
+            }
+        }
+
+        return false
+    }
+
 }

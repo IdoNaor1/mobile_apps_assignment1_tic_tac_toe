@@ -12,6 +12,9 @@ import androidx.core.view.WindowInsetsCompat
 class MainActivity : AppCompatActivity() {
 
     private lateinit var buttons: Array<Button>
+    private lateinit var statusText: TextView
+    private lateinit var playAgainButton: Button
+
     private var currentPlayer = "X"
     private var board = Array(9) { "" }
     private var gameActive = true
@@ -20,8 +23,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        val statusText = findViewById<TextView>(R.id.status)
-        val playAgainButton = findViewById<Button>(R.id.play_again_button)
+        statusText = findViewById(R.id.status)
+        playAgainButton = findViewById(R.id.play_again_button)
 
         playAgainButton.visibility = View.GONE
 
@@ -63,6 +66,10 @@ class MainActivity : AppCompatActivity() {
                 currentPlayer = if (currentPlayer == "X") "O" else "X"
                 statusText.text = getString(R.string.player_s_turn, currentPlayer)
             }
+        }
+
+        playAgainButton.setOnClickListener {
+            resetGame()
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -109,6 +116,19 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return true
+    }
+
+    private fun resetGame() {
+        board = Array(9) { "" }
+        currentPlayer = "X"
+        gameActive = true
+
+        for (button in buttons) {
+            button.text = ""
+        }
+
+        statusText.text = getString(R.string.player_s_turn, currentPlayer)
+        playAgainButton.visibility = View.GONE
     }
 
 }
